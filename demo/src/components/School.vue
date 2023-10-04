@@ -7,13 +7,24 @@
     <button @click="btnclik">向父组件传递数据</button>
     <button @click="btn">通过$parent获取父组件的数据</button>
     <h3>我通过$parent获取父组件的数据：{{ parent }}</h3>
+
+    <h3>我通过$bus.$emit全局组件的数据：{{ student }}</h3>
+
+    <Sudent/>
+
+    <button @click="btnClose">关闭全局事件总线的数据</button>
+
   </div>
 </template>
 
 <script>
+import Sudent from './Sudent'
 export default {
   name: 'School',
   props:['appName'],
+  components: {
+    Sudent
+  },
   data () {
     return {
       parent: '',
@@ -30,7 +41,8 @@ export default {
           name: '清华大学',
           address: '北京'
         }
-      ]
+      ],
+      student: [],
     }
   },
   methods: {
@@ -41,7 +53,22 @@ export default {
     btn() {
       console.log(this.$parent);  //子组件通过$parent获取父组件的数据
       this.parent = this.$parent.parentName
+    },
+    btnClose() {
+      this.$bus.$off('hello') //关闭
     }
+  },
+  mounted() {
+     console.log("school组件", this)
+    this.$bus.$on('hello', (data) => { 
+      console.log("School获取学生信息",data);
+      this.student = data
+
+     
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('hello') //关闭
   }
 }
 </script>

@@ -6,6 +6,11 @@
     <div v-for="item in student" :key="item.id">{{ item }}</div>
    
     <h3>我是父组件的数据：{{ appName }}</h3>
+
+    <button @click="sendStudentName">通过全局事件总线$bus把学生信息给School组件</button>
+    <button @click="btn">获取父组件app的数据</button>
+
+    <h3>我是通过$parent获取父组件的数据：{{ parent }}</h3>
   </div>
 </template>
 
@@ -32,9 +37,20 @@ export default {
           sex: '男',
         }
 
-      ]
+      ],
+      parent:''
     }
-  }
+  },
+  methods: {
+    sendStudentName() {
+      this.$bus.$emit('hello', this.student)
+    },
+    btn() {
+      console.log('student',this.$parent);  //子组件通过$parent获取父组件的数据
+      this.parent = this.$parent.parentName
+    },
+  },
+  
 }
 </script>
 
