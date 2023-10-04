@@ -8,7 +8,7 @@
     <button @click="btn">通过$parent获取父组件的数据</button>
     <h3>我通过$parent获取父组件的数据：{{ parent }}</h3>
 
-    <h3>我通过$bus.$emit全局组件的数据：{{ student }}</h3>
+    <h3>我通过$bus.$emit全局总线获取student组件的数据：{{ student }}</h3>
 
     <Sudent/>
 

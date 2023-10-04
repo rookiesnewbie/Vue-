@@ -11,6 +11,7 @@
     <button @click="btn">获取父组件app的数据</button>
 
     <h3>我是通过$parent获取父组件的数据：{{ parent }}</h3>
+    <h3 v-if="parentName">我是通过全局事件总线获取父组件的数据：{{ parentName }}</h3>
   </div>
 </template>
 
@@ -38,7 +39,8 @@ export default {
         }
 
       ],
-      parent:''
+      parent: '',
+      parentName: '',
     }
   },
   methods: {
@@ -50,6 +52,19 @@ export default {
       this.parent = this.$parent.parentName
     },
   },
+   mounted() {
+    this.$bus.$on('app', (data) => {
+      console.log("student获取app父组件的信息", data);
+      this.parentName = data
+      this.parent = data
+
+      console.log(`空字符串为false?,${'' == false}`);
+
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('hello') //关闭
+  }
   
 }
 </script>

@@ -13,7 +13,12 @@
     <button @click="receive">通过$ref访问子组件的数据</button>
     <div v-for="item in school" :key="item.name">{{ item }}</div>
       <div v-for="item in sudent" :key="item.name">{{ item }}</div>
+
+    <button @click="sendMessage">通过$bus实现数据共享</button>
+
   </div>
+
+
 </template>
 
 <script>
@@ -45,6 +50,10 @@ export default {
       console.log(this.$children);
       this.school = this.$refs.content.school;
       this.sudent = this.$children[1].student
+    },
+
+    sendMessage() {
+      this.$bus.$emit('app',this.parentName)
     }
   }
 }
